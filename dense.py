@@ -10,7 +10,6 @@ class Dense(Layer):
 
     def forward(self, input):
         # print("\n-------------Forward step(Dense) -------\n")
-        self.number += 1
         self.input = input
         dotproduct = np.dot(self.weights, self.input) + self.bias
 
@@ -28,7 +27,12 @@ class Dense(Layer):
 
         input_gradient = np.dot(self.weights.T, output_gradient)
         self.weights -= learning_rate * weights_gradient
+        print(f"adjusted weights by subtracting: {learning_rate} * {weights_gradient}")
+    
         self.bias -= learning_rate * output_gradient
+        print(f"adjusted bias by subtracting: {learning_rate} * {output_gradient}")
+        self.number += 1
+        print(f"\nnumber of times weights adjusted and bias: {self.number}\n")
         return input_gradient  # to pass the gradient to the next previous layer to continue backpropagation
 
     def save(self, filename_prefix):
